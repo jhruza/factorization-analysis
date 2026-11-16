@@ -1,6 +1,6 @@
 # Factorization Lab
 
-A small, standalone PyTorch and NumPy codebase for studying how transformers represent independent latent factors. It provides a canonical five-factor data process, a compact causal transformer, reproducible training runs, and held-out representation analyses. It is an experimental research tool, not a full reproduction package for the motivating paper.
+A small, standalone PyTorch and NumPy codebase for studying how transformers represent independent latent factors. It provides a canonical five-factor data process, a compact causal transformer, reproducible training runs, and held-out representation analyses. Motivated and forked from the finding of https://arxiv.org/abs/2602.02385.
 
 ## Quick start
 
