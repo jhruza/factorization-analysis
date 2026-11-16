@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "factorization-lab"
+version = "0.1.0"
+description = "Small, inspectable experiments on transformer factor representations"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2,<3", "torch>=2.5,<3", "matplotlib>=3.9,<4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

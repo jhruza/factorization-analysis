@@ -1,0 +1,11 @@
+# Canonical model and generator; short pipeline check, not a scientific replication.
+name = "smoke"
+steps = 8
+batch_size = 16
+sequence_length = 8
+model_seed = 7
+data_seed = 77
+learning_rate = 0.0005
+scheduler = "constant"
+checkpoint_every = 4
+log_every = 1

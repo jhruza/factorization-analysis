@@ -1,0 +1,34 @@
+[workspace]
+name = "factorization-lab"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "linux-64"]
+
+[dependencies]
+python = "3.12.*"
+numpy = ">=2,<3"
+matplotlib = ">=3.9,<4"
+pytest = ">=8,<10"
+ruff = ">=0.11,<1"
+pip = "*"
+jupyterlab = ">=4,<5"
+
+[pypi-dependencies]
+torch = "==2.8.0"
+factorization-lab = { path = ".", editable = true }
+
+# PyPI Torch bundles OpenMP on Mac; pthread BLAS avoids loading a second runtime.
+[target.osx-arm64.dependencies]
+libopenblas = { version = "*", build = "*pthreads*" }
+
+[tasks]
+train = "python experiments/reproduce_independent.py"
+analyze = "python experiments/analyze_development.py"
+branches = "python experiments/train_freeze_branches.py"
+paper = "python experiments/analyze_paper.py"
+test = "pytest -q"
+lint = "ruff check src experiments tests scripts"
+notebook = "jupyter lab notebooks"
+
+[activation.env]
+MPLCONFIGDIR = "$PIXI_PROJECT_ROOT/.pixi/matplotlib"
