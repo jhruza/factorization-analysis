@@ -15,6 +15,50 @@ pixi run paper --run runs/smoke --steps 0 8 --n-sequences 32 --backgrounds 2 --b
 
 The eight-update smoke preset checks the pipeline only; it is not evidence of factorization. Use `local.toml` for a longer exploratory run and `paper.toml` for the paper-scale budget. See [Setup](docs/setup.md) and [Experiments](docs/experiments.md) for interpretation and limits.
 
+## Folder structure
+
+```text
+factorization-lab/
+├── README.md
+├── pixi.toml                  # Dependencies and runnable tasks
+├── pixi.lock                  # Locked dependency versions for Mac and Linux
+├── pyproject.toml             # Python package and tool settings
+├── configs/
+│   ├── smoke.toml             # Quick pipeline check
+│   ├── local.toml             # Reduced training budget
+│   └── paper.toml             # Original reproduction training settings
+├── src/factorization/
+│   ├── processes.py           # Five-factor generator and exact state updates
+│   ├── data.py                # Sample and oracle data containers
+│   ├── model.py               # Transformer and activation interfaces
+│   ├── train.py               # Training, resuming, and freezing parameters
+│   ├── checkpoints.py         # Saving and loading training snapshots
+│   └── analysis/
+│       ├── paper.py           # Paper-style PCA and vary-one factor overlap
+│       ├── development.py     # Measurements across layers and checkpoints
+│       ├── factors.py         # Probes, factor encoding, and subspace geometry
+│       ├── interventions.py   # Natural hybrids and selective activation edits
+│       └── plotting.py        # Figures from saved measurements
+├── experiments/
+│   ├── reproduce_independent.py  # Train the independent-factor setting
+│   ├── analyze_paper.py          # Run the paper-style measurements
+│   ├── analyze_development.py    # Run our developmental measurements
+│   └── train_freeze_branches.py  # Compare parameter-freeze training branches
+├── notebooks/                 # Short walkthroughs using the same package
+│   ├── 00_generator.ipynb
+│   ├── 01_paper_figures.ipynb
+│   └── 02_development_interventions.ipynb
+├── tests/                     # Generator, model, analysis, and resume checks
+├── scripts/                   # Reference comparisons and validation records
+├── docs/
+│   ├── setup.md               # Local and RunPod workflow
+│   ├── experiments.md         # Protocols and measurement definitions
+│   └── validation.md          # Completed checks and their limits
+└── runs/                      # Generated checkpoints, metrics, and figures
+```
+
+`src/` contains reusable calculations; `experiments/` contains the recipes that call them. Notebooks explain and explore those same functions. Training saves checkpoints once, so different analyses can reuse them. Generated `runs/` outputs are excluded from Git.
+
 ## What the experiment measures
 
 The canonical process combines five independent factors with alphabet sizes `(3, 3, 3, 4, 4)`. Their fused vocabulary has 432 ordinary tokens plus BOS (ID 432). The model is a four-layer causal transformer with three heads per layer, width 120, and a width-480 ReLU MLP. Its context capacity is 9; training inputs contain 8 positions (BOS plus seven observations), with next-token targets.
